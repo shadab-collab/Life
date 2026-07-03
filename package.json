@@ -1,0 +1,38 @@
+{
+  "name": "shadab-coaching-centre-v4",
+  "version": "4.0.0",
+  "description": "Professional Coaching Management System",
+  "main": "backend/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
+  },
+  "keywords": [
+    "coaching",
+    "student",
+    "fees",
+    "attendance",
+    "result",
+    "mongodb"
+  ],
+  "author": "Shadab Coaching Centre",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "mongoose": "^8.16.5",
+    "morgan": "^1.10.0",
+    "helmet": "^8.1.0",
+    "compression": "^1.8.1",
+    "dayjs": "^1.11.13",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
