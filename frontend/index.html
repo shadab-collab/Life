@@ -1,774 +1,725 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>
-
-SHADAB COACHING CENTER
-
-</title>
-
-<link
-rel="stylesheet"
-href="style.css">
-
-<link
-rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link
-rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
-
-<link
-href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-rel="stylesheet">
-
+  
+  <meta charset="UTF-8">
+  
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+  
+  <title>
+    
+    SHADAB COACHING CENTER
+    
+  </title>
+  
+  <link
+    rel="stylesheet"
+    href="style.css">
+  
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com">
+  
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
+  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  
 </head>
 
 <body>
-
-<!-- ========================= -->
-<!-- HEADER -->
-<!-- ========================= -->
-
-<header class="top-header">
-
-<div class="logo-area">
-
-<div class="logo-circle">
-
-🎓
-
-</div>
-
-<div>
-
-<h1>
-
-SHADAB COACHING CENTER
-
-</h1>
-
-<p>
-
-Student Fee Management System
-
-</p>
-
-</div>
-
-</div>
-
-<div class="header-right">
-
-<button
-class="add-btn"
-onclick="openAddStudentModal()">
-
-+ Student
-
-</button>
-
-<button
-class="family-btn"
-onclick="openAddFamilyModal()">
-
-+ Family
-
-</button>
-
-</div>
-
-</header>
-
-<!-- ========================= -->
-<!-- DASHBOARD -->
-<!-- ========================= -->
-
-<section class="dashboard">
-
-<div class="dashboard-card">
-
-<h3>
-
-Today's Collection
-
-</h3>
-
-<h2
-id="statTodayCollection">
-
-₹0
-
-</h2>
-
-</div>
-
-<div class="dashboard-card">
-
-<h3>
-
-Current Month
-
-</h3>
-
-<h2
-id="statMonthCollection">
-
-₹0
-
-</h2>
-
-</div>
-
-<div class="dashboard-card">
-
-<h3>
-
-Due Students
-
-</h3>
-
-<h2
-id="statTotalDues">
-
-0
-
-</h2>
-
-</div>
-
-</section>
-
-<!-- ========================= -->
-<!-- SEARCH -->
-<!-- ========================= -->
-
-<section class="search-panel">
-
-<input
-
-id="searchInput"
-
-type="text"
-
-placeholder="Search Student..."
-
-onkeyup="filterStudents()">
-
-<select
-
-id="filterDue"
-
-onchange="filterStudents()">
-
-<option value="">
-
-All
-
-</option>
-
-<option value="due">
-
-Due Students
-
-</option>
-
-<option value="1">
-
-Due Date 1
-
-</option>
-
-<option value="15">
-
-Due Date 15
-
-</option>
-
-<option value="1-5">
-
-Batch 1-5
-
-</option>
-
-<option value="6-8">
-
-Batch 6-8
-
-</option>
-
-<option value="9">
-
-Batch 9
-
-</option>
-
-<option value="10">
-
-Batch 10
-
-</option>
-
-<option value="CBSE">
-
-CBSE
-
-</option>
-
-</select>
-
-</section>
-
-<!-- ========================= -->
-<!-- STUDENT LIST -->
-<!-- ========================= -->
-
-<div
-
-id="studentList"
-
-class="student-container">
-
-</div>
-<!-- ========================= -->
-<!-- FLOATING BUTTONS -->
-<!-- ========================= -->
-
-<div class="floating-buttons">
-
-<button
-class="fab fab-add"
-onclick="openAddStudentModal()">
-
-👨‍🎓
-
-</button>
-
-<button
-class="fab fab-family"
-onclick="openAddFamilyModal()">
-
-👨‍👩‍👧
-
-</button>
-
-</div>
-
-<!-- ========================= -->
-<!-- ADD STUDENT MODAL -->
-<!-- ========================= -->
-
-<div
-id="addStudentModal"
-class="modal">
-
-<div class="modal-content">
-
-<h2>
-
-➕ Add Student
-
-</h2>
-
-<input
-id="stuName"
-type="text"
-placeholder="Student Name">
-
-<input
-id="stuIdentity"
-type="text"
-placeholder="Father / Identity">
-
-<input
-id="stuFee"
-type="number"
-placeholder="Monthly Fee">
-
-<select id="stuBatch">
-
-<option value="">
-
-Select Batch
-
-</option>
-
-<option value="1-5">
-
-1-5
-
-</option>
-
-<option value="6-8">
-
-6-8
-
-</option>
-
-<option value="9">
-
-9
-
-</option>
-
-<option value="10">
-
-10
-
-</option>
-
-<option value="CBSE">
-
-CBSE
-
-</option>
-
-</select>
-
-<select id="stuDueDate">
-
-<option value="1">
-
-Due Date 1
-
-</option>
-
-<option value="15">
-
-Due Date 15
-
-</option>
-
-</select>
-
-<label>
-
-Joining Date
-
-</label>
-
-<input
-id="stuJoinDate"
-type="date">
-
-<div class="modal-buttons">
-
-<button
-class="btn-save"
-onclick="saveIndividualStudent()">
-
-💾 Save
-
-</button>
-
-<button
-class="btn-cancel"
-onclick="closeModal('addStudentModal')">
-
-✖ Cancel
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ========================= -->
-<!-- ADD FAMILY MODAL -->
-<!-- ========================= -->
-
-<div
-id="addFamilyModal"
-class="modal">
-
-<div class="modal-content">
-
-<h2>
-
-👨‍👩‍👧 Add Family
-
-</h2>
-
-<input
-id="famCode"
-type="text"
-placeholder="Family Code">
-
-<input
-id="famIdentity"
-type="text"
-placeholder="Father Name">
-
-<input
-id="famTotalFee"
-type="number"
-placeholder="Total Family Fee">
-
-<select
-id="famSplitType"
-onchange="toggleFamilyFormSplitFields()">
-
-<option value="auto">
-
-Auto Split
-
-</option>
-
-<option value="manual">
-
-Manual Split
-
-</option>
-
-</select>
-
-<select id="famBatch">
-
-<option value="">
-
-Select Batch
-
-</option>
-
-<option value="1-5">
-
-1-5
-
-</option>
-
-<option value="6-8">
-
-6-8
-
-</option>
-
-<option value="9">
-
-9
-
-</option>
-
-<option value="10">
-
-10
-
-</option>
-
-<option value="CBSE">
-
-CBSE
-
-</option>
-
-</select>
-
-<select id="famDueDate">
-
-<option value="1">
-
-Due Date 1
-
-</option>
-
-<option value="15">
-
-Due Date 15
-
-</option>
-
-</select>
-
-<label>
-
-Joining Date
-
-</label>
-
-<input
-id="famJoinDate"
-type="date">
-
-<div id="famMembersContainer">
-
-</div>
-
-<button
-class="btn-add-member"
-onclick="addMoreMemberField()">
-
-+ Add Member
-
-</button>
-
-<div class="modal-buttons">
-
-<button
-class="btn-save"
-onclick="saveFamilyGroup()">
-
-💾 Save Family
-
-</button>
-
-<button
-class="btn-cancel"
-onclick="closeModal('addFamilyModal')">
-
-✖ Cancel
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-<!-- ========================= -->
-<!-- MARK FEE MODAL -->
-<!-- ========================= -->
-
-<div id="markFeeModal" class="modal">
-
-<div class="modal-content">
-
-<h2>💰 Mark Fee</h2>
-
-<h3 id="markStudentName"></h3>
-
-<label>Month</label>
-
-<input id="feeMonth" type="text" readonly>
-
-<label>Year</label>
-
-<input id="feeYear" type="number" readonly>
-
-<label>Status</label>
-
-<select id="feeStatus">
-
-<option value="paid">Paid</option>
-
-<option value="partial">Partial</option>
-
-<option value="advance">Advance</option>
-
-<option value="unpaid">Unpaid</option>
-
-</select>
-
-<label>Paid Amount</label>
-
-<input
-id="feeAmount"
-type="number"
-placeholder="Amount">
-
-<label>Note</label>
-
-<textarea
-id="feeNote"
-rows="3"
-placeholder="Optional Note"></textarea>
-
-<div class="modal-buttons">
-
-<button
-class="btn-save"
-onclick="saveFee()">
-
-💾 Save
-
-</button>
-
-<button
-class="btn-cancel"
-onclick="closeModal('markFeeModal')">
-
-✖ Cancel
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ========================= -->
-<!-- HISAB MODAL -->
-<!-- ========================= -->
-
-<div id="hisabModal" class="modal">
-
-<div class="modal-content large">
-
-<h2>📖 हिसाब</h2>
-
-<div id="hisabBody">
-
-Loading...
-
-</div>
-
-<div class="modal-buttons">
-
-<button
-class="btn-cancel"
-onclick="closeModal('hisabModal')">
-
-Close
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ========================= -->
-<!-- RECEIPT MODAL -->
-<!-- ========================= -->
-
-<div id="receiptModal" class="modal">
-
-<div class="modal-content">
-
-<h2>🧾 Receipt</h2>
-
-<div id="receiptBody">
-
-</div>
-
-<div class="modal-buttons">
-
-<button
-onclick="window.print()"
-class="btn-save">
-
-🖨 Print
-
-</button>
-
-<button
-class="btn-cancel"
-onclick="closeModal('receiptModal')">
-
-Close
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ========================= -->
-<!-- CUSTOM ALERT -->
-<!-- ========================= -->
-
-<div id="customAlertModal" class="modal">
-
-<div class="modal-content">
-
-<h2>Notification</h2>
-
-<p id="customAlertMessage"></p>
-
-<div class="modal-buttons">
-
-<button
-class="btn-save"
-onclick="closeModal('customAlertModal')">
-
-OK
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ========================= -->
-<!-- CONFIRM DELETE -->
-<!-- ========================= -->
-
-<div id="confirmModal" class="modal">
-
-<div class="modal-content">
-
-<h2>Confirmation</h2>
-
-<p id="confirmMessage">
-
-Are you sure?
-
-</p>
-
-<div class="modal-buttons">
-
-<button
-id="confirmYes"
-class="btn-save">
-
-Yes
-
-</button>
-
-<button
-class="btn-cancel"
-onclick="closeModal('confirmModal')">
-
-No
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ========================= -->
-<!-- UNDO BAR -->
-<!-- ========================= -->
-
-<div
-id="undoBar"
-class="undo-bar">
-
-<span id="undoText">
-
-Action Completed
-
-</span>
-
-<button onclick="undoLastAction()">
-
-UNDO
-
-</button>
-
-</div>
-
-<script src="script.js"></script>
-
+  
+  <header class="top-header">
+    
+    <div class="logo-area">
+      
+      <div class="logo-circle">
+        
+        🎓
+        
+      </div>
+      
+      <div>
+        
+        <h1>
+          
+          SHADAB COACHING CENTER
+          
+        </h1>
+        
+        <p>
+          
+          Student Fee Management System
+          
+        </p>
+        
+      </div>
+      
+    </div>
+    
+    <div class="header-right">
+      
+      <button
+        class="add-btn"
+        onclick="openAddStudentModal()">
+        
+        + Student
+        
+      </button>
+      
+      <button
+        class="family-btn"
+        onclick="openAddFamilyModal()">
+        
+        + Family
+        
+      </button>
+      
+    </div>
+    
+  </header>
+  
+  <section class="dashboard">
+    
+    <div class="dashboard-card">
+      
+      <h3>
+        
+        Today's Collection
+        
+      </h3>
+      
+      <h2
+        id="statTodayCollection">
+        
+        ₹0
+        
+      </h2>
+      
+    </div>
+    
+    <div class="dashboard-card">
+      
+      <h3>
+        
+        Current Month
+        
+      </h3>
+      
+      <h2
+        id="statMonthCollection">
+        
+        ₹0
+        
+      </h2>
+      
+    </div>
+    
+    <div class="dashboard-card">
+      
+      <h3>
+        
+        Due Students
+        
+      </h3>
+      
+      <h2
+        id="statTotalDues">
+        
+        0
+        
+      </h2>
+      
+    </div>
+    
+  </section>
+  
+  <section class="search-panel">
+    
+    <input
+      
+      id="searchInput"
+      
+      type="text"
+      
+      placeholder="Search Student..."
+      
+      onkeyup="filterStudents()">
+    
+    <select
+      
+      id="filterDue"
+      
+      onchange="filterStudents()">
+      
+      <option value="">
+        
+        All
+        
+      </option>
+      
+      <option value="due">
+        
+        Due Students
+        
+      </option>
+      
+      <option value="1">
+        
+        Due Date 1
+        
+      </option>
+      
+      <option value="15">
+        
+        Due Date 15
+        
+      </option>
+      
+      <option value="1-5">
+        
+        Batch 1-5
+        
+      </option>
+      
+      <option value="6-8">
+        
+        Batch 6-8
+        
+      </option>
+      
+      <option value="9">
+        
+        Batch 9
+        
+      </option>
+      
+      <option value="10">
+        
+        Batch 10
+        
+      </option>
+      
+      <option value="CBSE">
+        
+        CBSE
+        
+      </option>
+      
+    </select>
+    
+  </section>
+  
+  <div
+    
+    id="studentList"
+    
+    class="student-container">
+    
+  </div>
+  
+  <div class="floating-buttons">
+    
+    <button
+      class="fab fab-add"
+      onclick="openAddStudentModal()">
+      
+      👨‍🎓
+      
+    </button>
+    
+    <button
+      class="fab fab-family"
+      onclick="openAddFamilyModal()">
+      
+      👨‍👩‍👧
+      
+    </button>
+    
+  </div>
+  
+  <div
+    id="addStudentModal"
+    class="modal">
+    
+    <div class="modal-content">
+      
+      <h2>
+        
+        ➕ Add Student
+        
+      </h2>
+      
+      <input
+        id="stuName"
+        type="text"
+        placeholder="Student Name">
+      
+      <input
+        id="stuIdentity"
+        type="text"
+        placeholder="Father / Identity">
+      
+      <input
+        id="stuFee"
+        type="number"
+        placeholder="Monthly Fee">
+      
+      <select id="stuBatch">
+        
+        <option value="">
+          
+          Select Batch
+          
+        </option>
+        
+        <option value="1-5">
+          
+          1-5
+          
+        </option>
+        
+        <option value="6-8">
+          
+          6-8
+          
+        </option>
+        
+        <option value="9">
+          
+          9
+          
+        </option>
+        
+        <option value="10">
+          
+          10
+          
+        </option>
+        
+        <option value="CBSE">
+          
+          CBSE
+          
+        </option>
+        
+      </select>
+      
+      <select id="stuDueDate">
+        
+        <option value="1">
+          
+          Due Date 1
+          
+        </option>
+        
+        <option value="15">
+          
+          Due Date 15
+          
+        </option>
+        
+      </select>
+      
+      <label>
+        
+        Joining Date
+        
+      </label>
+      
+      <input
+        id="stuJoinDate"
+        type="date">
+      
+      <div class="modal-buttons">
+        
+        <button
+          class="btn-save"
+          onclick="saveIndividualStudent()">
+          
+          💾 Save
+          
+        </button>
+        
+        <button
+          class="btn-cancel"
+          onclick="closeModal('addStudentModal')">
+          
+          ✖ Cancel
+          
+        </button>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  <div
+    id="addFamilyModal"
+    class="modal">
+    
+    <div class="modal-content">
+      
+      <h2>
+        
+        👨‍👩‍👧 Add Family
+        
+      </h2>
+      
+      <input
+        id="famCode"
+        type="text"
+        placeholder="Family Code">
+      
+      <input
+        id="famIdentity"
+        type="text"
+        placeholder="Father Name">
+      
+      <input
+        id="famTotalFee"
+        type="number"
+        placeholder="Total Family Fee">
+      
+      <select
+        id="famSplitType"
+        onchange="toggleFamilyFormSplitFields()">
+        
+        <option value="auto">
+          
+          Auto Split
+          
+        </option>
+        
+        <option value="manual">
+          
+          Manual Split
+          
+        </option>
+        
+      </select>
+      
+      <select id="famBatch">
+        
+        <option value="">
+          
+          Select Batch
+          
+        </option>
+        
+        <option value="1-5">
+          
+          1-5
+          
+        </option>
+        
+        <option value="6-8">
+          
+          6-8
+          
+        </option>
+        
+        <option value="9">
+          
+          9
+          
+        </option>
+        
+        <option value="10">
+          
+          10
+          
+        </option>
+        
+        <option value="CBSE">
+          
+          CBSE
+          
+        </option>
+        
+      </select>
+      
+      <select id="famDueDate">
+        
+        <option value="1">
+          
+          Due Date 1
+          
+        </option>
+        
+        <option value="15">
+          
+          Due Date 15
+          
+        </option>
+        
+      </select>
+      
+      <label>
+        
+        Joining Date
+        
+      </label>
+      
+      <input
+        id="famJoinDate"
+        type="date">
+      
+      <div id="famMembersContainer">
+        
+      </div>
+      
+      <button
+        class="btn-add-member"
+        onclick="addMoreMemberField()">
+        
+        + Add Member
+        
+      </button>
+      
+      <div class="modal-buttons">
+        
+        <button
+          class="btn-save"
+          onclick="saveFamilyGroup()">
+          
+          💾 Save Family
+          
+        </button>
+        
+        <button
+          class="btn-cancel"
+          onclick="closeModal('addFamilyModal')">
+          
+          ✖ Cancel
+          
+        </button>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  <div id="markFeeModal" class="modal">
+    
+    <div class="modal-content">
+      
+      <h2>💰 Mark Fee</h2>
+      
+      <h3 id="markStudentName"></h3>
+      
+      <label>Month</label>
+      
+      <input id="feeMonth" type="text" readonly>
+      
+      <label>Year</label>
+      
+      <input id="feeYear" type="number" readonly>
+      
+      <label>Status</label>
+      
+      <select id="feeStatus">
+        
+        <option value="paid">Paid</option>
+        
+        <option value="partial">Partial</option>
+        
+        <option value="advance">Advance</option>
+        
+        <option value="unpaid">Unpaid</option>
+        
+      </select>
+      
+      <label>Paid Amount</label>
+      
+      <input
+        id="feeAmount"
+        type="number"
+        placeholder="Amount">
+      
+      <label>Note</label>
+      
+      <textarea
+        id="feeNote"
+        rows="3"
+        placeholder="Optional Note"></textarea>
+      
+      <div class="modal-buttons">
+        
+        <button
+          class="btn-save"
+          onclick="saveFee()">
+          
+          💾 Save
+          
+        </button>
+        
+        <button
+          class="btn-cancel"
+          onclick="closeModal('markFeeModal')">
+          
+          ✖ Cancel
+          
+        </button>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  <div id="hisabModal" class="modal">
+    
+    <div class="modal-content large">
+      
+      <h2>📖 हिसाब</h2>
+      
+      <div id="hisabBody">
+        
+        Loading...
+        
+      </div>
+      
+      <div class="modal-buttons">
+        
+        <button
+          class="btn-cancel"
+          onclick="closeModal('hisabModal')">
+          
+          Close
+          
+        </button>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  <div id="receiptModal" class="modal">
+    
+    <div class="modal-content">
+      
+      <h2>🧾 Receipt</h2>
+      
+      <div id="receiptBody">
+        
+      </div>
+      
+      <div class="modal-buttons">
+        
+        <button
+          onclick="window.print()"
+          class="btn-save">
+          
+          🖨 Print
+          
+        </button>
+        
+        <button
+          class="btn-cancel"
+          onclick="closeModal('receiptModal')">
+          
+          Close
+          
+        </button>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  <div id="customAlertModal" class="modal">
+    
+    <div class="modal-content">
+      
+      <h2>Notification</h2>
+      
+      <p id="customAlertMessage"></p>
+      
+      <div class="modal-buttons">
+        
+        <button
+          class="btn-save"
+          onclick="closeModal('customAlertModal')">
+          
+          OK
+          
+        </button>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  <div id="confirmModal" class="modal">
+    
+    <div class="modal-content">
+      
+      <h2>Confirmation</h2>
+      
+      <p id="confirmMessage">
+        
+        Are you sure?
+        
+      </p>
+      
+      <div class="modal-buttons">
+        
+        <button
+          id="confirmYes"
+          class="btn-save">
+          
+          Yes
+          
+        </button>
+        
+        <button
+          class="btn-cancel"
+          onclick="closeModal('confirmModal')">
+          
+          No
+          
+        </button>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  <div
+    id="undoBar"
+    class="undo-bar">
+    
+    <span id="undoText">
+      
+      Action Completed
+      
+    </span>
+    
+    <button onclick="undoLastAction()">
+      
+      UNDO
+      
+    </button>
+    
+  </div>
+  
+  <script src="script.js"></script>
+  
 </body>
 
 </html>

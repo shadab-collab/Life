@@ -3,6 +3,7 @@
 // SCRIPT.JS (FINAL V4)
 // PART 1
 // =========================================
+
 const API = "https://life-lt97.onrender.com/api/students";
 
 
@@ -10,15 +11,21 @@ const API = "https://life-lt97.onrender.com/api/students";
 let students = [];
 
 let currentStudent = null;
+
 let currentFamily = null;
+
 let currentMonth = "";
+
 let currentYear = 0;
 
 let undoData = null;
 
 const MONTHS = [
+  
   "JN", "FB", "MR", "AP", "MY", "JU",
+  
   "JL", "AG", "SP", "OC", "NV", "DC"
+  
 ];
 
 // ==========================
@@ -30,11 +37,15 @@ window.onload = function() {
   loadStudents();
   
   document
+    
     .getElementById("stuJoinDate")
+    
     .value = todayInput();
   
   document
+    
     .getElementById("famJoinDate")
+    
     .value = todayInput();
   
 };
@@ -59,7 +70,6 @@ async function loadStudents() {
   
   try {
     
-    // ✅ सुधार: इसमें मोड और हेडर जोड़े गए हैं ताकि मोबाइल इसे ब्लॉक न करे
     const res = await fetch(API, {
       
       method: "GET",
@@ -91,7 +101,6 @@ async function loadStudents() {
   }
   
 }
-
 
 // ==========================
 
@@ -260,6 +269,7 @@ function calculateDashboard() {
   ).innerHTML = due;
   
 }
+
 // =========================================
 // PART 2
 // Search + Filter + Render
@@ -272,12 +282,17 @@ function calculateDashboard() {
 function filterStudents() {
   
   const text = document
+    
     .getElementById("searchInput")
+    
     .value
+    
     .toLowerCase();
   
   const filter = document
+    
     .getElementById("filterDue")
+    
     .value;
   
   let list = [...students];
@@ -303,7 +318,7 @@ function filterStudents() {
       );
       
     });
-    
+  
   }
   
   // Filter
@@ -471,6 +486,7 @@ function getStudentStatus(student) {
   return "Clear";
   
 }
+
 // =========================================
 // PART 3 (REVISED)
 // Student Card Rendering
@@ -481,7 +497,9 @@ function renderStudentCard(student) {
   const due = hasCurrentDue(student);
   
   const badge = due ?
+    
     '<span class="badge badge-red">Due</span>' :
+    
     '<span class="badge badge-green">Clear</span>';
   
   return `
@@ -582,6 +600,7 @@ function renderMonthButtons(student) {
     const fee = (student.fees || []).find(
       
       x => x.month === month &&
+      
       x.year === year
       
     );
@@ -591,12 +610,15 @@ function renderMonthButtons(student) {
     if (fee) {
       
       if (fee.status === "paid")
+        
         cls = "month-paid";
       
       if (fee.status === "partial")
+        
         cls = "month-partial";
       
       if (fee.status === "advance")
+        
         cls = "month-advance";
       
     }
@@ -650,6 +672,7 @@ function toggleFees(id) {
   }
   
 }
+
 // =========================================
 // PART 4
 // Fee Modal
@@ -662,24 +685,33 @@ function openMarkModal(studentId, month, year) {
   feeTargetStudent = studentId;
   
   currentMonth = month;
+  
   currentYear = year;
   
   const student = students.find(
+    
     x => x._id === studentId
+    
   );
   
   if (!student) return;
   
   document.getElementById(
+    
     "markStudentName"
+    
   ).innerHTML = student.name;
   
   document.getElementById(
+    
     "feeMonth"
+    
   ).value = month;
   
   document.getElementById(
+    
     "feeYear"
+    
   ).value = year;
   
   const fee = (student.fees || []).find(
@@ -697,15 +729,21 @@ function openMarkModal(studentId, month, year) {
   if (fee) {
     
     document.getElementById(
+      
       "feeStatus"
+      
     ).value = fee.status;
     
     document.getElementById(
+      
       "feeAmount"
+      
     ).value = fee.paidAmount;
     
     document.getElementById(
+      
       "feeNote"
+      
     ).value = fee.note || "";
     
   }
@@ -713,22 +751,31 @@ function openMarkModal(studentId, month, year) {
   else {
     
     document.getElementById(
+      
       "feeStatus"
+      
     ).value = "paid";
     
     document.getElementById(
+      
       "feeAmount"
+      
     ).value = student.monthlyFee;
     
     document.getElementById(
+      
       "feeNote"
+      
     ).value = "";
     
   }
   
   document
+    
     .getElementById("markFeeModal")
+    
     .classList
+    
     .add("open");
   
 }
@@ -748,13 +795,17 @@ async function saveFee() {
     status:
       
       document.getElementById(
+        
         "feeStatus"
+        
       ).value,
     
     paidAmount: Number(
       
       document.getElementById(
+        
         "feeAmount"
+        
       ).value
       
     ),
@@ -762,7 +813,9 @@ async function saveFee() {
     note:
       
       document.getElementById(
+        
         "feeNote"
+        
       ).value
     
   };
@@ -826,6 +879,7 @@ function showAlert(msg) {
   ).classList.add("open");
   
 }
+
 // =========================================
 // PART 5
 // हिसाब (Ledger)
@@ -834,7 +888,9 @@ function showAlert(msg) {
 function openHisabModal(studentId) {
   
   const student = students.find(
+    
     x => x._id === studentId
+    
   );
   
   if (!student) return;
@@ -863,9 +919,10 @@ function openHisabModal(studentId) {
   
   (student.fees || [])
   
-  .sort((a, b) => {
+    .sort((a, b) => {
       
       if (a.year !== b.year)
+        
         return a.year - b.year;
       
       return MONTHS.indexOf(a.month) - MONTHS.indexOf(b.month);
@@ -883,12 +940,15 @@ function openHisabModal(studentId) {
       let color = "#e53935";
       
       if (fee.status === "paid")
+        
         color = "#43a047";
       
       if (fee.status === "partial")
+        
         color = "#fb8c00";
       
       if (fee.status === "advance")
+        
         color = "#1565c0";
       
       html += `
@@ -948,12 +1008,17 @@ onclick="printHisab('${student._id}')">
 `;
   
   document.getElementById(
+    
     "hisabBody"
+    
   ).innerHTML = html;
   
   document
+    
     .getElementById("hisabModal")
+    
     .classList
+    
     .add("open");
   
 }
@@ -965,13 +1030,17 @@ onclick="printHisab('${student._id}')">
 function printHisab(studentId) {
   
   const student = students.find(
+    
     x => x._id === studentId
+    
   );
   
   if (!student) return;
   
   const receipt = document.getElementById(
+    
     "receiptBody"
+    
   );
   
   receipt.innerHTML =
@@ -1019,11 +1088,15 @@ ${document.getElementById("hisabBody").innerHTML}
   closeModal("hisabModal");
   
   document
+    
     .getElementById("receiptModal")
+    
     .classList
+    
     .add("open");
   
 }
+
 // =========================================
 // PART 6
 // Edit / Delete Student
@@ -1035,120 +1108,270 @@ ${document.getElementById("hisabBody").innerHTML}
 
 async function editStudent(id){
 
-const student=students.find(
-x=>x._id===id
-);
+  const student=students.find(
+    
+    x=>x._id===id
+    
+  );
 
-if(!student) return;
+  if(!student) return;
 
-document.getElementById("stuName").value=student.name;
-document.getElementById("stuIdentity").value=student.identity||"";
-document.getElementById("stuFee").value=student.monthlyFee;
-document.getElementById("stuBatch").value=student.batch;
-document.getElementById("stuDueDate").value=student.dueDate;
-document.getElementById("stuJoinDate").value=
-student.joinDate
-?student.joinDate.substring(0,10)
-:todayInput();
+  document.getElementById("stuName").value=student.name;
+  
+  document.getElementById("stuIdentity").value=student.identity||"";
+  
+  document.getElementById("stuFee").value=student.monthlyFee;
+  
+  document.getElementById("stuBatch").value=student.batch;
+  
+  document.getElementById("stuDueDate").value=student.dueDate;
+  
+  document.getElementById("stuJoinDate").value=
+    
+    student.joinDate
+    
+    ?student.joinDate.substring(0,10)
+    
+    :todayInput();
 
-document
-.getElementById("addStudentModal")
-.classList
-.add("open");
+  document
+    
+    .getElementById("addStudentModal")
+    
+    .classList
+    
+    .add("open");
 
-const saveBtn=document.querySelector(
-"#addStudentModal .btn-save"
-);
+  const saveBtn=document.querySelector(
+    
+    "#addStudentModal .btn-save"
+    
+  );
 
-saveBtn.innerHTML="💾 Update";
+  saveBtn.innerHTML="💾 Update";
 
-saveBtn.onclick=async function(){
+  saveBtn.onclick=async function(){
 
-const body={
+    const body={
 
-name:document.getElementById("stuName").value,
+      name:document.getElementById("stuName").value,
 
-identity:document.getElementById("stuIdentity").value,
+      identity:document.getElementById("stuIdentity").value,
 
-monthlyFee:Number(
-document.getElementById("stuFee").value
-),
+      monthlyFee:Number(
+        
+        document.getElementById("stuFee").value
+        
+      ),
 
-batch:document.getElementById("stuBatch").value,
+      batch:document.getElementById("stuBatch").value,
 
-dueDate:Number(
-document.getElementById("stuDueDate").value
-),
+      dueDate:Number(
+        
+        document.getElementById("stuDueDate").value
+        
+      ),
 
-joinDate:
-document.getElementById("stuJoinDate").value
+      joinDate:
+        
+        document.getElementById("stuJoinDate").value
 
-};
+    };
 
-await putData(
-API+"/"+id,
-body
-);
+    await putData(
+      
+      API+"/"+id,
+      
+      body
+      
+    );
 
-closeModal("addStudentModal");
+    closeModal("addStudentModal");
 
-saveBtn.innerHTML="💾 Save";
+    saveBtn.innerHTML="💾 Save";
 
-saveBtn.onclick=saveIndividualStudent;
+    saveBtn.onclick=saveIndividualStudent;
 
-refreshStudents();
+    refreshStudents();
 
-showAlert("Student Updated");
+    showAlert("Student Updated");
 
-};
+  };
 
 }
 
 // --------------------------
-// Delete Student
+// Delete Student (Fix: Linked to real DELETE Route)
 // --------------------------
 
 function deleteStudent(id){
 
-const student=students.find(
-x=>x._id===id
-);
+  const student=students.find(
+    
+    x=>x._id===id
+    
+  );
 
-if(!student) return;
+  if(!student) return;
 
-document.getElementById(
-"confirmMessage"
-).innerHTML=
+  document.getElementById(
+    
+    "confirmMessage"
+    
+  ).innerHTML=
 
-`Delete <b>${student.name}</b> ?`;
+    `Delete <b>${student.name}</b> ?`;
 
-document
-.getElementById("confirmModal")
-.classList
-.add("open");
+  document
+    
+    .getElementById("confirmModal")
+    
+    .classList
+    
+    .add("open");
 
-document.getElementById(
-"confirmYes"
-).onclick=async function(){
+  document.getElementById(
+    
+    "confirmYes"
+    
+  ).onclick=async function(){
 
-undoData=JSON.parse(
-JSON.stringify(student)
-);
+    undoData=JSON.parse(
+      
+      JSON.stringify(student)
+      
+    );
 
-await putData(
-API+"/"+id+"/status",
-{}
-);
+    // ✅ सुधार: असली डिलीट रूट को कॉल किया गया है
+    const fullUrl = `https://life-lt97.onrender.com/api/students/${id}`;
+    
+    await fetch(fullUrl, {
+      
+      method: "DELETE"
+      
+    });
 
-closeModal("confirmModal");
+    closeModal("confirmModal");
 
-refreshStudents();
+    refreshStudents();
 
-showUndo();
+    showUndo();
 
-};
+  };
 
 }
+
+// =========================================
+// PART 6 (ADDITIONAL FUNCTIONS)
+// Open Modal & Save Individual Student
+// =========================================
+
+// --------------------------
+// Open Add Student Modal
+// --------------------------
+
+function openAddStudentModal() {
+  
+  document.getElementById("stuName").value = "";
+  
+  document.getElementById("stuIdentity").value = "";
+  
+  document.getElementById("stuFee").value = "";
+  
+  document.getElementById("stuBatch").selectedIndex = 0;
+  
+  document.getElementById("stuDueDate").value = "1";
+  
+  document.getElementById("stuJoinDate").value = todayInput();
+  
+  const saveBtn = document.querySelector(
+    
+    "#addStudentModal .btn-save"
+    
+  );
+  
+  saveBtn.innerHTML = "💾 Save";
+  
+  saveBtn.onclick = saveIndividualStudent;
+  
+  document
+    
+    .getElementById("addStudentModal")
+    
+    .classList
+    
+    .add("open");
+  
+}
+
+// --------------------------
+// Save Individual Student
+// --------------------------
+
+async function saveIndividualStudent() {
+  
+  const nameInput = document.getElementById("stuName").value.trim();
+  
+  if (nameInput === "") {
+    
+    showAlert("Please Enter Student Name");
+    
+    return;
+    
+  }
+  
+  const body = {
+    
+    name: nameInput,
+    
+    identity: document.getElementById("stuIdentity").value.trim(),
+    
+    monthlyFee: Number(
+      
+      document.getElementById("stuFee").value || 0
+      
+    ),
+    
+    batch: document.getElementById("stuBatch").value,
+    
+    dueDate: Number(
+      
+      document.getElementById("stuDueDate").value
+      
+    ),
+    
+    joinDate: document.getElementById("stuJoinDate").value
+    
+  };
+  
+  try {
+    
+    await postData(
+      
+      API,
+      
+      body
+      
+    );
+    
+    closeModal("addStudentModal");
+    
+    refreshStudents();
+    
+    showAlert("Student Added Successfully");
+    
+  }
+  
+  catch (err) {
+    
+    console.log(err);
+    
+    showAlert("Unable To Save Student");
+    
+  }
+  
+}
+
 
 // --------------------------
 // Undo Bar
@@ -1156,55 +1379,65 @@ showUndo();
 
 function showUndo(){
 
-const bar=document.getElementById(
-"undoBar"
-);
+  const bar=document.getElementById(
+    
+    "undoBar"
+    
+  );
 
-document.getElementById(
-"undoText"
-).innerHTML="Student Archived";
+  document.getElementById(
+    
+    "undoText"
+    
+  ).innerHTML="Student Archived";
 
-bar.classList.add("show");
+  bar.classList.add("show");
 
-setTimeout(()=>{
+  setTimeout(()=>{
 
-bar.classList.remove("show");
+    bar.classList.remove("show");
 
-undoData=null;
+    undoData=null;
 
-},5000);
+  },5000);
 
 }
 
 // --------------------------
-// Undo
+// Undo (Fix: Linked to changeStatus PUT Toggle Route)
 // --------------------------
 
 async function undoLastAction(){
 
-if(!undoData)
-return;
+  if(!undoData)
+    
+    return;
 
-await putData(
+  // ✅ सुधार: स्टेटस टोगल रूट का इस्तेमाल छात्र वापस लाने के लिए किया गया है
+  await putData(
 
-API+"/"+undoData._id+"/status",
+    API+"/"+undoData._id+"/status",
 
-{}
+    {}
 
-);
+  );
 
-refreshStudents();
+  refreshStudents();
 
-document
-.getElementById("undoBar")
-.classList
-.remove("show");
+  document
+    
+    .getElementById("undoBar")
+    
+    .classList
+    
+    .remove("show");
 
-undoData=null;
+  undoData=null;
 
-showAlert("Undo Successful");
+  showAlert("Undo Successful");
 
 }
+
 // =========================================
 // PART 7
 // Family Management
@@ -1217,11 +1450,17 @@ showAlert("Undo Successful");
 function openAddFamilyModal() {
   
   document.getElementById("famCode").value = "";
+  
   document.getElementById("famIdentity").value = "";
+  
   document.getElementById("famTotalFee").value = "";
+  
   document.getElementById("famBatch").selectedIndex = 0;
+  
   document.getElementById("famDueDate").value = "1";
+  
   document.getElementById("famSplitType").value = "auto";
+  
   document.getElementById("famJoinDate").value = todayInput();
   
   const container = document.getElementById("famMembersContainer");
@@ -1231,8 +1470,11 @@ function openAddFamilyModal() {
   addMoreMemberField();
   
   document
+    
     .getElementById("addFamilyModal")
+    
     .classList
+    
     .add("open");
   
 }
@@ -1244,7 +1486,9 @@ function openAddFamilyModal() {
 function addMoreMemberField() {
   
   const box = document.getElementById(
+    
     "famMembersContainer"
+    
   );
   
   const count = box.children.length + 1;
@@ -1334,6 +1578,7 @@ async function saveFamilyGroup() {
   for (let i = 0; i < names.length; i++) {
     
     if (names[i].value.trim() === "")
+      
       continue;
     
     members.push({
@@ -1451,7 +1696,7 @@ async function saveFamilyGroup() {
       "Family Added Successfully"
       
     );
-    
+  
   }
   
   catch (err) {
@@ -1467,32 +1712,39 @@ async function saveFamilyGroup() {
   }
   
 }
+
 // =========================================
 // PART 8
 // Family Fee + Family Hisab
 // =========================================
 
 // --------------------------
-// Family Fee
+// Family Fee (Fix: Synced with Backend markFamilyFee Router)
 // --------------------------
 
 async function markFamilyFee(code) {
   
   const month = currentMonth;
+  
   const year = currentYear;
   
   const amount = Number(
+    
     document.getElementById("feeAmount").value
+    
   );
   
   const status =
+    
     document.getElementById("feeStatus").value;
   
   const note =
+    
     document.getElementById("feeNote").value;
   
   try {
     
+    // ✅ सुधार: बैकएंड राउट /family/:code/fees के साथ सटीक सिंक किया गया
     await putData(
       
       API + "/family/" + code + "/fees",
@@ -1640,14 +1892,14 @@ Total Received :
 }
 
 // --------------------------
-// WhatsApp Reminder
+// WhatsApp Reminder (Fix: Formal institutional name applied)
 // --------------------------
 
 function sendReminder(student) {
   
   const msg =
     
-    `Assalamualaikum
+    `अभिभावक कृपया ध्यान देंगे
 
 SHADAB COACHING CENTER
 
@@ -1670,7 +1922,7 @@ ${student.name}
 }
 
 // --------------------------
-// Family Reminder
+// Family Reminder (Fix: Formal institutional name applied)
 // --------------------------
 
 function sendFamilyReminder(code) {
@@ -1685,7 +1937,7 @@ function sendFamilyReminder(code) {
   
   const msg =
     
-    `Assalamualaikum
+    `अभिभावक कृपया ध्यान देंगे
 
 SHADAB COACHING CENTER
 
@@ -1708,6 +1960,7 @@ Family : ${code}
   );
   
 }
+
 // =========================================
 // PART 9
 // Utility Functions
@@ -1723,7 +1976,7 @@ function getCurrentMonth() {
     month: MONTHS[d.getMonth()],
     
     year: d.getFullYear()
-    
+  
   };
   
 }
@@ -1909,6 +2162,7 @@ setInterval(
 // =========================================
 
 loadStudents();
+
 // =========================================
 // PART 10
 // Common Utilities
@@ -2070,6 +2324,7 @@ console.log(
   "✅ SHADAB COACHING CENTER V4 Loaded"
   
 );
+
 // =========================================
 // PART 11
 // Export / Import / Backup
