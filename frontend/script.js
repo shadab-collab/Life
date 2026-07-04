@@ -454,6 +454,96 @@ function renderStudents(list) {
 }
 
 // --------------------------
+// Family Card Rendering
+// --------------------------
+
+function renderFamilyCard(code, members) {
+
+  const totalFee = members.reduce(
+    (sum, s) => sum + Number(s.monthlyFee || 0),
+    0
+  );
+
+  const due = members.some(s => hasCurrentDue(s));
+
+  const badge = due ?
+    '<span class="badge badge-red">Due</span>' :
+    '<span class="badge badge-green">Clear</span>';
+
+  const memberNames = members
+    .map(s => s.name)
+    .join(", ");
+
+  let html = `
+
+<div class="student-card">
+
+<div
+class="student-header ${due ? "due" : ""}"
+onclick="toggleFees('family-${code}')">
+
+<div>
+
+<div class="student-name">
+👪 Family : ${code}
+</div>
+
+<div class="student-meta">
+${memberNames}
+</div>
+
+<div class="student-meta">
+Members : ${members.length}
+&nbsp;&nbsp;|&nbsp;&nbsp;
+Total Fee : ₹${totalFee}
+</div>
+
+</div>
+
+<div class="student-badges">
+
+${badge}
+
+<button
+class="btn-action green"
+onclick="event.stopPropagation();openHisabModalForFamily('${code}')">
+📖
+</button>
+
+<button
+class="btn-action"
+onclick="event.stopPropagation();sendFamilyReminder('${code}')">
+📩
+</button>
+
+<button
+class="btn-action red"
+onclick="event.stopPropagation();showFamilyOptions('${code}')">
+🗑
+</button>
+
+</div>
+
+</div>
+
+<div
+id="fees-family-${code}"
+class="fees-row"
+style="display:none;">
+
+${members.map(s => renderStudentCard(s)).join("")}
+
+</div>
+
+</div>
+
+`;
+
+  return html;
+
+}
+
+// --------------------------
 // Student Status
 // --------------------------
 
