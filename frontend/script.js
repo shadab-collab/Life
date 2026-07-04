@@ -4,7 +4,10 @@
 // PART 1
 // =========================================
 
-const API = "/api/students";
+const API = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+  ? "/api/students" 
+  : "https://life-lt97.onrender.com/api/students";
+
 
 let students = [];
 
