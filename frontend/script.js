@@ -115,7 +115,7 @@ async function refreshStudents() {
 
 async function postData(url, data) {
   
-  const fullUrl = url.startsWith("http") ? url : `https://life-dwmg.onrender.com${url}`;
+  const fullUrl = url;
   
   const res = await fetch(fullUrl, {
     
@@ -139,7 +139,7 @@ async function postData(url, data) {
 
 async function putData(url, data) {
   
-  const fullUrl = url.startsWith("http") ? url : `https://life-dwmg.onrender.com${url}`;
+  const fullUrl = url;
   
   const res = await fetch(fullUrl, {
     
