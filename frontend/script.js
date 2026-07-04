@@ -72,7 +72,7 @@ async function loadStudents() {
   
   try {
     
-    const res = await fetch(API, {
+    const res = await fetch("/api/students", {
       
       method: "GET",
       
