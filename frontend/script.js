@@ -72,18 +72,9 @@ async function loadStudents() {
   
   try {
     
-    const res = await fetch("/api/students", {
-      
-      method: "GET",
-      
-      
-      headers: {
-        
-        "Content-Type": "application/json"
-        
-      }
-      
-    });
+    const res = await fetch("/api/students");
+    
+    if (!res.ok) throw new Error("HTTP " + res.status);
     
     students = await res.json();
     
@@ -95,9 +86,9 @@ async function loadStudents() {
   
   catch (err) {
     
-    console.log(err);
+    console.log("Load Error:", err);
     
-    showAlert("Server Connection Failed");
+    showAlert("Server Connection Failed: " + err.message);
     
   }
   
@@ -115,9 +106,7 @@ async function refreshStudents() {
 
 async function postData(url, data) {
   
-  const fullUrl = url;
-  
-  const res = await fetch(fullUrl, {
+  const res = await fetch(url, {
     
     method: "POST",
     
@@ -139,9 +128,7 @@ async function postData(url, data) {
 
 async function putData(url, data) {
   
-  const fullUrl = url;
-  
-  const res = await fetch(fullUrl, {
+  const res = await fetch(url, {
     
     method: "PUT",
     
@@ -298,8 +285,6 @@ function filterStudents() {
   
   let list = [...students];
   
-  // Search
-  
   if (text) {
     
     list = list.filter(s => {
@@ -321,8 +306,6 @@ function filterStudents() {
     });
   
   }
-  
-  // Filter
   
   switch (filter) {
     
@@ -434,8 +417,6 @@ function renderStudents(list) {
     
   });
   
-  // Family Cards
-  
   Object.keys(families)
     
     .sort()
@@ -451,8 +432,6 @@ function renderStudents(list) {
       );
       
     });
-  
-  // Single Cards
   
   singles
     
@@ -489,7 +468,7 @@ function getStudentStatus(student) {
 }
 
 // =========================================
-// PART 3 (REVISED)
+// PART 3
 // Student Card Rendering
 // =========================================
 
@@ -1103,37 +1082,33 @@ ${document.getElementById("hisabBody").innerHTML}
 // Edit / Delete Student
 // =========================================
 
-// --------------------------
-// Edit Student
-// --------------------------
+async function editStudent(id) {
 
-async function editStudent(id){
-
-  const student=students.find(
+  const student = students.find(
     
-    x=>x._id===id
+    x => x._id === id
     
   );
 
-  if(!student) return;
+  if (!student) return;
 
-  document.getElementById("stuName").value=student.name;
+  document.getElementById("stuName").value = student.name;
   
-  document.getElementById("stuIdentity").value=student.identity||"";
+  document.getElementById("stuIdentity").value = student.identity || "";
   
-  document.getElementById("stuFee").value=student.monthlyFee;
+  document.getElementById("stuFee").value = student.monthlyFee;
   
-  document.getElementById("stuBatch").value=student.batch;
+  document.getElementById("stuBatch").value = student.batch;
   
-  document.getElementById("stuDueDate").value=student.dueDate;
+  document.getElementById("stuDueDate").value = student.dueDate;
   
-  document.getElementById("stuJoinDate").value=
+  document.getElementById("stuJoinDate").value =
     
     student.joinDate
     
-    ?student.joinDate.substring(0,10)
+    ? student.joinDate.substring(0, 10)
     
-    :todayInput();
+    : todayInput();
 
   document
     
@@ -1143,45 +1118,43 @@ async function editStudent(id){
     
     .add("open");
 
-  const saveBtn=document.querySelector(
+  const saveBtn = document.querySelector(
     
     "#addStudentModal .btn-save"
     
   );
 
-  saveBtn.innerHTML="💾 Update";
+  saveBtn.innerHTML = "💾 Update";
 
-  saveBtn.onclick=async function(){
+  saveBtn.onclick = async function() {
 
-    const body={
+    const body = {
 
-      name:document.getElementById("stuName").value,
+      name: document.getElementById("stuName").value,
 
-      identity:document.getElementById("stuIdentity").value,
+      identity: document.getElementById("stuIdentity").value,
 
-      monthlyFee:Number(
+      monthlyFee: Number(
         
         document.getElementById("stuFee").value
         
       ),
 
-      batch:document.getElementById("stuBatch").value,
+      batch: document.getElementById("stuBatch").value,
 
-      dueDate:Number(
+      dueDate: Number(
         
         document.getElementById("stuDueDate").value
         
       ),
 
-      joinDate:
-        
-        document.getElementById("stuJoinDate").value
+      joinDate: document.getElementById("stuJoinDate").value
 
     };
 
     await putData(
       
-      API+"/"+id,
+      API + "/" + id,
       
       body
       
@@ -1189,9 +1162,9 @@ async function editStudent(id){
 
     closeModal("addStudentModal");
 
-    saveBtn.innerHTML="💾 Save";
+    saveBtn.innerHTML = "💾 Save";
 
-    saveBtn.onclick=saveIndividualStudent;
+    saveBtn.onclick = saveIndividualStudent;
 
     refreshStudents();
 
@@ -1201,25 +1174,21 @@ async function editStudent(id){
 
 }
 
-// --------------------------
-// Delete Student (Fix: Linked to real DELETE Route)
-// --------------------------
+function deleteStudent(id) {
 
-function deleteStudent(id){
-
-  const student=students.find(
+  const student = students.find(
     
-    x=>x._id===id
+    x => x._id === id
     
   );
 
-  if(!student) return;
+  if (!student) return;
 
   document.getElementById(
     
     "confirmMessage"
     
-  ).innerHTML=
+  ).innerHTML =
 
     `Delete <b>${student.name}</b> ?`;
 
@@ -1235,18 +1204,15 @@ function deleteStudent(id){
     
     "confirmYes"
     
-  ).onclick=async function(){
+  ).onclick = async function() {
 
-    undoData=JSON.parse(
+    undoData = JSON.parse(
       
       JSON.stringify(student)
       
     );
 
-    // ✅ सुधार: असली डिलीट रूट को कॉल किया गया है
-    const fullUrl = `https://life-dwmg.onrender.com${id}`;
-    
-    await fetch(fullUrl, {
+    await fetch("/api/students/" + id, {
       
       method: "DELETE"
       
@@ -1263,13 +1229,8 @@ function deleteStudent(id){
 }
 
 // =========================================
-// PART 6 (ADDITIONAL FUNCTIONS)
 // Open Modal & Save Individual Student
 // =========================================
-
-// --------------------------
-// Open Add Student Modal
-// --------------------------
 
 function openAddStudentModal() {
   
@@ -1304,10 +1265,6 @@ function openAddStudentModal() {
     .add("open");
   
 }
-
-// --------------------------
-// Save Individual Student
-// --------------------------
 
 async function saveIndividualStudent() {
   
@@ -1373,14 +1330,13 @@ async function saveIndividualStudent() {
   
 }
 
-
 // --------------------------
 // Undo Bar
 // --------------------------
 
-function showUndo(){
+function showUndo() {
 
-  const bar=document.getElementById(
+  const bar = document.getElementById(
     
     "undoBar"
     
@@ -1390,34 +1346,29 @@ function showUndo(){
     
     "undoText"
     
-  ).innerHTML="Student Archived";
+  ).innerHTML = "Student Archived";
 
   bar.classList.add("show");
 
-  setTimeout(()=>{
+  setTimeout(() => {
 
     bar.classList.remove("show");
 
-    undoData=null;
+    undoData = null;
 
-  },5000);
+  }, 5000);
 
 }
 
-// --------------------------
-// Undo (Fix: Linked to changeStatus PUT Toggle Route)
-// --------------------------
+async function undoLastAction() {
 
-async function undoLastAction(){
-
-  if(!undoData)
+  if (!undoData)
     
     return;
 
-  // ✅ सुधार: स्टेटस टोगल रूट का इस्तेमाल छात्र वापस लाने के लिए किया गया है
   await putData(
 
-    API+"/"+undoData._id+"/status",
+    API + "/" + undoData._id + "/status",
 
     {}
 
@@ -1433,7 +1384,7 @@ async function undoLastAction(){
     
     .remove("show");
 
-  undoData=null;
+  undoData = null;
 
   showAlert("Undo Successful");
 
@@ -1443,10 +1394,6 @@ async function undoLastAction(){
 // PART 7
 // Family Management
 // =========================================
-
-// -----------------------------------------
-// Open Family Modal
-// -----------------------------------------
 
 function openAddFamilyModal() {
   
@@ -1479,10 +1426,6 @@ function openAddFamilyModal() {
     .add("open");
   
 }
-
-// -----------------------------------------
-// Add Member Field
-// -----------------------------------------
 
 function addMoreMemberField() {
   
@@ -1528,10 +1471,6 @@ placeholder="Fee (Manual Split Only)">
   
 }
 
-// -----------------------------------------
-// Split Type
-// -----------------------------------------
-
 function toggleFamilyFormSplitFields() {
   
   const manual =
@@ -1563,10 +1502,6 @@ function toggleFamilyFormSplitFields() {
     });
   
 }
-
-// -----------------------------------------
-// Save Family
-// -----------------------------------------
 
 async function saveFamilyGroup() {
   
@@ -1719,10 +1654,6 @@ async function saveFamilyGroup() {
 // Family Fee + Family Hisab
 // =========================================
 
-// --------------------------
-// Family Fee (Fix: Synced with Backend markFamilyFee Router)
-// --------------------------
-
 async function markFamilyFee(code) {
   
   const month = currentMonth;
@@ -1745,7 +1676,6 @@ async function markFamilyFee(code) {
   
   try {
     
-    // ✅ सुधार: बैकएंड राउट /family/:code/fees के साथ सटीक सिंक किया गया
     await putData(
       
       API + "/family/" + code + "/fees",
@@ -1783,10 +1713,6 @@ async function markFamilyFee(code) {
   }
   
 }
-
-// --------------------------
-// Family Hisab
-// --------------------------
 
 function openHisabModalForFamily(code) {
   
@@ -1892,10 +1818,6 @@ Total Received :
   
 }
 
-// --------------------------
-// WhatsApp Reminder (Fix: Formal institutional name applied)
-// --------------------------
-
 function sendReminder(student) {
   
   const msg =
@@ -1921,10 +1843,6 @@ ${student.name}
   );
   
 }
-
-// --------------------------
-// Family Reminder (Fix: Formal institutional name applied)
-// --------------------------
 
 function sendFamilyReminder(code) {
   
@@ -1967,7 +1885,6 @@ Family : ${code}
 // Utility Functions
 // =========================================
 
-// Current Month
 function getCurrentMonth() {
   
   const d = new Date();
@@ -1981,8 +1898,6 @@ function getCurrentMonth() {
   };
   
 }
-
-// Visible Months (Current + Previous 11)
 
 function getVisibleMonths() {
   
@@ -2016,8 +1931,6 @@ function getVisibleMonths() {
   
 }
 
-// Before Join Date
-
 function isBeforeJoin(month, year, joinDate) {
   
   if (!joinDate) return false;
@@ -2031,10 +1944,6 @@ function isBeforeJoin(month, year, joinDate) {
   return dt < new Date(jd.getFullYear(), jd.getMonth(), 1);
   
 }
-
-// =========================================
-// Verify Student
-// =========================================
 
 async function toggleVerify(id) {
   
@@ -2062,10 +1971,6 @@ async function toggleVerify(id) {
   
 }
 
-// =========================================
-// Active / Inactive
-// =========================================
-
 async function changeStudentStatus(id) {
   
   await putData(
@@ -2079,10 +1984,6 @@ async function changeStudentStatus(id) {
   refreshStudents();
   
 }
-
-// =========================================
-// Family Options
-// =========================================
 
 function showFamilyOptions(code) {
   
@@ -2120,10 +2021,6 @@ function showFamilyOptions(code) {
   
 }
 
-// =========================================
-// Receipt
-// =========================================
-
 function openReceipt(html) {
   
   document.getElementById(
@@ -2146,10 +2043,6 @@ function openReceipt(html) {
   
 }
 
-// =========================================
-// Refresh
-// =========================================
-
 setInterval(
   
   refreshStudents,
@@ -2158,10 +2051,6 @@ setInterval(
   
 );
 
-// =========================================
-// Initial Load
-// =========================================
-
 loadStudents();
 
 // =========================================
@@ -2169,7 +2058,6 @@ loadStudents();
 // Common Utilities
 // =========================================
 
-// Close Modal
 function closeModal(id) {
   
   const modal = document.getElementById(id);
@@ -2182,8 +2070,6 @@ function closeModal(id) {
   
 }
 
-// Close All
-
 function closeAllModals() {
   
   document.querySelectorAll(".modal")
@@ -2191,8 +2077,6 @@ function closeAllModals() {
     .forEach(m => m.classList.remove("open"));
   
 }
-
-// ESC Key
 
 document.addEventListener("keydown", e => {
   
@@ -2203,8 +2087,6 @@ document.addEventListener("keydown", e => {
   }
   
 });
-
-// Outside Click
 
 window.onclick = function(e) {
   
@@ -2220,15 +2102,11 @@ window.onclick = function(e) {
   
 };
 
-// Currency
-
 function money(amount) {
   
   return "₹" + Number(amount || 0).toLocaleString("en-IN");
   
 }
-
-// Today's Date
 
 function today() {
   
@@ -2246,15 +2124,11 @@ function today() {
   
 }
 
-// Month Index
-
 function monthIndex(month) {
   
   return MONTHS.indexOf(month);
   
 }
-
-// Total Paid
 
 function getTotalPaid(student) {
   
@@ -2271,8 +2145,6 @@ function getTotalPaid(student) {
     );
   
 }
-
-// Current Due
 
 function getCurrentDue(student) {
   
@@ -2308,8 +2180,6 @@ function getCurrentDue(student) {
   
 }
 
-// Reload
-
 async function reload() {
   
   await refreshStudents();
@@ -2317,8 +2187,6 @@ async function reload() {
   filterStudents();
   
 }
-
-// Console
 
 console.log(
   
@@ -2330,10 +2198,6 @@ console.log(
 // PART 11
 // Export / Import / Backup
 // =========================================
-
-// --------------------------
-// Export JSON
-// --------------------------
 
 function exportStudents() {
   
@@ -2370,10 +2234,6 @@ function exportStudents() {
   URL.revokeObjectURL(a.href);
   
 }
-
-// --------------------------
-// Import JSON
-// --------------------------
 
 function importStudents(file) {
   
@@ -2425,10 +2285,6 @@ function importStudents(file) {
   
 }
 
-// --------------------------
-// Auto Backup
-// --------------------------
-
 function autoBackup() {
   
   localStorage.setItem(
@@ -2447,8 +2303,6 @@ function autoBackup() {
   
 }
 
-// Every 5 Minutes
-
 setInterval(
   
   autoBackup,
@@ -2456,10 +2310,6 @@ setInterval(
   300000
   
 );
-
-// --------------------------
-// Restore Local Backup
-// --------------------------
 
 function restoreBackup() {
   
@@ -2491,19 +2341,11 @@ function restoreBackup() {
   
 }
 
-// --------------------------
-// Print Receipt
-// --------------------------
-
 function printReceipt() {
   
   window.print();
   
 }
-
-// --------------------------
-// Initialize
-// --------------------------
 
 window.addEventListener(
   
