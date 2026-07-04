@@ -8,8 +8,7 @@
 // API BASE URL CONFIGURATION
 // =========================================
 
-const API = "/";
-
+const API = "/api/students";
 
 let students = [];
 
