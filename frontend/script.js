@@ -76,7 +76,6 @@ async function loadStudents() {
       
       method: "GET",
       
-      mode: "cors",
       
       headers: {
         
