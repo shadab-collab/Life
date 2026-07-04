@@ -59,7 +59,20 @@ async function loadStudents() {
   
   try {
     
-    const res = await fetch(API);
+    // ✅ सुधार: इसमें मोड और हेडर जोड़े गए हैं ताकि मोबाइल इसे ब्लॉक न करे
+    const res = await fetch(API, {
+      
+      method: "GET",
+      
+      mode: "cors",
+      
+      headers: {
+        
+        "Content-Type": "application/json"
+        
+      }
+      
+    });
     
     students = await res.json();
     
@@ -78,6 +91,7 @@ async function loadStudents() {
   }
   
 }
+
 
 // ==========================
 
