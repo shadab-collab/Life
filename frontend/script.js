@@ -91,7 +91,9 @@ async function refreshStudents() {
 
 async function postData(url, data) {
   
-  const res = await fetch(url, {
+  const fullUrl = url.startsWith("http") ? url : `https://life-lt97.onrender.com${url}`;
+  
+  const res = await fetch(fullUrl, {
     
     method: "POST",
     
@@ -113,7 +115,9 @@ async function postData(url, data) {
 
 async function putData(url, data) {
   
-  const res = await fetch(url, {
+  const fullUrl = url.startsWith("http") ? url : `https://life-lt97.onrender.com${url}`;
+  
+  const res = await fetch(fullUrl, {
     
     method: "PUT",
     
