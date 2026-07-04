@@ -4,8 +4,11 @@
 // PART 1
 // =========================================
 
-const API = "https://life-lt97.onrender.com/api/students";
+// =========================================
+// API BASE URL CONFIGURATION
+// =========================================
 
+const API = "/api/students";
 
 
 let students = [];
