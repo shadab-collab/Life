@@ -1,0 +1,945 @@
+/* =======================================
+   SHADAB COACHING CENTER
+   STYLE.CSS
+   PART - 1
+======================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  
+  background: #f4f7fb;
+  
+  color: #222;
+  
+  padding: 20px;
+  
+}
+
+/* ===========================
+HEADER
+=========================== */
+
+.top-header {
+  
+  display: flex;
+  
+  justify-content: space-between;
+  
+  align-items: center;
+  
+  background: #1565c0;
+  
+  color: #fff;
+  
+  padding: 18px 22px;
+  
+  border-radius: 12px;
+  
+  margin-bottom: 20px;
+  
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .15);
+  
+}
+
+.logo-area {
+  
+  display: flex;
+  
+  align-items: center;
+  
+  gap: 15px;
+  
+}
+
+.logo-circle {
+  
+  width: 55px;
+  
+  height: 55px;
+  
+  border-radius: 50%;
+  
+  background: #fff;
+  
+  color: #1565c0;
+  
+  display: flex;
+  
+  justify-content: center;
+  
+  align-items: center;
+  
+  font-size: 28px;
+  
+  font-weight: bold;
+  
+}
+
+.logo-area h1 {
+  
+  font-size: 24px;
+  
+  font-weight: 700;
+  
+}
+
+.logo-area p {
+  
+  font-size: 13px;
+  
+  opacity: .9;
+  
+}
+
+/* ===========================
+HEADER BUTTONS
+=========================== */
+
+.header-right {
+  
+  display: flex;
+  
+  gap: 10px;
+  
+}
+
+.add-btn,
+.family-btn {
+  
+  border: none;
+  
+  padding: 10px 18px;
+  
+  border-radius: 8px;
+  
+  cursor: pointer;
+  
+  font-size: 15px;
+  
+  font-weight: 600;
+  
+  transition: .3s;
+  
+}
+
+.add-btn {
+  
+  background: #43a047;
+  
+  color: #fff;
+  
+}
+
+.family-btn {
+  
+  background: #fb8c00;
+  
+  color: #fff;
+  
+}
+
+.add-btn:hover,
+.family-btn:hover {
+  
+  transform: translateY(-2px);
+  
+}
+
+/* ===========================
+DASHBOARD
+=========================== */
+
+.dashboard {
+  
+  display: grid;
+  
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  
+  gap: 15px;
+  
+  margin-bottom: 20px;
+  
+}
+
+.dashboard-card {
+  
+  background: #fff;
+  
+  padding: 20px;
+  
+  border-radius: 12px;
+  
+  text-align: center;
+  
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .08);
+  
+}
+
+.dashboard-card h3 {
+  
+  font-size: 16px;
+  
+  color: #666;
+  
+  margin-bottom: 10px;
+  
+}
+
+.dashboard-card h2 {
+  
+  font-size: 30px;
+  
+  color: #1565c0;
+  
+  font-weight: 700;
+  
+}
+
+/* ===========================
+SEARCH PANEL
+=========================== */
+
+.search-panel {
+  
+  display: flex;
+  
+  gap: 10px;
+  
+  margin-bottom: 20px;
+  
+  flex-wrap: wrap;
+  
+}
+
+.search-panel input,
+.search-panel select {
+  
+  padding: 12px;
+  
+  border: 1px solid #ccc;
+  
+  border-radius: 8px;
+  
+  font-size: 15px;
+  
+}
+
+.search-panel input {
+  
+  flex: 1;
+  
+  min-width: 220px;
+  
+}
+
+.search-panel select {
+  
+  min-width: 180px;
+  
+}
+/* ===========================
+STUDENT CONTAINER
+=========================== */
+
+.student-container{
+
+display:flex;
+
+flex-direction:column;
+
+gap:15px;
+
+margin-bottom:80px;
+
+}
+
+/* ===========================
+CARD
+=========================== */
+
+.student-card{
+
+background:#fff;
+
+border-radius:12px;
+
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+
+overflow:hidden;
+
+}
+
+.student-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:15px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.student-header:hover{
+
+background:#f8f8f8;
+
+}
+
+.student-header.due{
+
+border-left:6px solid #e53935;
+
+}
+
+.student-header.verify{
+
+border-right:6px solid #ff9800;
+
+}
+
+.student-name{
+
+font-size:18px;
+
+font-weight:600;
+
+margin-bottom:5px;
+
+}
+
+.student-meta{
+
+font-size:13px;
+
+color:#666;
+
+}
+
+.family-tag{
+
+display:inline-block;
+
+background:#1565c0;
+
+color:#fff;
+
+padding:3px 8px;
+
+border-radius:5px;
+
+margin-right:8px;
+
+font-size:12px;
+
+}
+
+.student-badges{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+flex-wrap:wrap;
+
+}
+
+/* ===========================
+BADGES
+=========================== */
+
+.badge{
+
+padding:4px 10px;
+
+border-radius:20px;
+
+font-size:12px;
+
+font-weight:600;
+
+color:#fff;
+
+}
+
+.badge-red{
+
+background:#e53935;
+
+}
+
+.badge-green{
+
+background:#43a047;
+
+}
+
+/* ===========================
+BUTTONS
+=========================== */
+
+.btn-action{
+
+border:none;
+
+padding:7px 12px;
+
+border-radius:6px;
+
+cursor:pointer;
+
+font-size:13px;
+
+font-weight:600;
+
+}
+
+.btn-action.green{
+
+background:#43a047;
+
+color:#fff;
+
+}
+
+.btn-action.red{
+
+background:#e53935;
+
+color:#fff;
+
+}
+
+.btn-whatsapp{
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+width:34px;
+
+height:34px;
+
+border-radius:50%;
+
+background:#25D366;
+
+color:#fff;
+
+text-decoration:none;
+
+font-size:18px;
+
+}
+
+/* ===========================
+FEES AREA
+=========================== */
+
+.fees-row{
+
+padding:15px;
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:8px;
+
+border-top:1px solid #eee;
+
+}
+
+/* ===========================
+MONTH BUTTONS
+=========================== */
+
+.month-btn{
+
+border:none;
+
+padding:8px 12px;
+
+border-radius:8px;
+
+cursor:pointer;
+
+font-size:13px;
+
+font-weight:600;
+
+}
+
+.month-paid{
+
+background:#43a047;
+
+color:#fff;
+
+}
+
+.month-unpaid{
+
+background:#ef5350;
+
+color:#fff;
+
+}
+
+.month-partial{
+
+background:#ff9800;
+
+color:#fff;
+
+}
+
+.month-advance{
+
+background:#1565c0;
+
+color:#fff;
+
+}
+
+.current-month{
+
+outline:3px solid #000;
+
+}
+
+.archive-btn{
+
+border:none;
+
+padding:8px 14px;
+
+border-radius:8px;
+
+background:#616161;
+
+color:#fff;
+
+cursor:pointer;
+
+}
+
+/* ===========================
+FLOATING BUTTONS
+=========================== */
+
+.floating-buttons{
+
+position:fixed;
+
+right:20px;
+
+bottom:20px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:10px;
+
+z-index:999;
+
+}
+
+.fab{
+
+width:58px;
+
+height:58px;
+
+border:none;
+
+border-radius:50%;
+
+font-size:24px;
+
+cursor:pointer;
+
+color:#fff;
+
+box-shadow:0 4px 12px rgba(0,0,0,.3);
+
+}
+
+.fab-add{
+
+background:#43a047;
+
+}
+
+.fab-family{
+
+background:#1565c0;
+
+}
+/* ===========================
+MODAL
+=========================== */
+
+.modal{
+
+display:none;
+
+position:fixed;
+
+left:0;
+
+top:0;
+
+width:100%;
+
+height:100%;
+
+background:rgba(0,0,0,.55);
+
+justify-content:center;
+
+align-items:center;
+
+z-index:2000;
+
+padding:15px;
+
+}
+
+.modal.open{
+
+display:flex;
+
+}
+
+.modal-content{
+
+background:#fff;
+
+width:100%;
+
+max-width:520px;
+
+border-radius:12px;
+
+padding:20px;
+
+max-height:90vh;
+
+overflow:auto;
+
+box-shadow:0 8px 25px rgba(0,0,0,.25);
+
+}
+
+.modal-content.large{
+
+max-width:900px;
+
+}
+
+.modal-content h2{
+
+margin-bottom:15px;
+
+color:#1565c0;
+
+}
+
+.modal-content h3{
+
+margin-bottom:10px;
+
+font-size:17px;
+
+}
+
+.modal-content label{
+
+display:block;
+
+margin:12px 0 6px;
+
+font-weight:600;
+
+}
+
+.modal-content input,
+
+.modal-content select,
+
+.modal-content textarea{
+
+width:100%;
+
+padding:11px;
+
+border:1px solid #ccc;
+
+border-radius:8px;
+
+font-size:15px;
+
+outline:none;
+
+}
+
+.modal-content textarea{
+
+resize:vertical;
+
+}
+
+/* ===========================
+MODAL BUTTONS
+=========================== */
+
+.modal-buttons{
+
+display:flex;
+
+gap:10px;
+
+margin-top:20px;
+
+justify-content:flex-end;
+
+flex-wrap:wrap;
+
+}
+
+.btn-save{
+
+background:#43a047;
+
+color:#fff;
+
+border:none;
+
+padding:10px 18px;
+
+border-radius:8px;
+
+cursor:pointer;
+
+font-weight:600;
+
+}
+
+.btn-cancel{
+
+background:#e53935;
+
+color:#fff;
+
+border:none;
+
+padding:10px 18px;
+
+border-radius:8px;
+
+cursor:pointer;
+
+font-weight:600;
+
+}
+
+.btn-add-member{
+
+margin-top:15px;
+
+background:#1565c0;
+
+color:#fff;
+
+border:none;
+
+padding:10px 15px;
+
+border-radius:8px;
+
+cursor:pointer;
+
+}
+
+/* ===========================
+UNDO BAR
+=========================== */
+
+.undo-bar{
+
+position:fixed;
+
+left:50%;
+
+bottom:-80px;
+
+transform:translateX(-50%);
+
+background:#323232;
+
+color:#fff;
+
+padding:12px 18px;
+
+border-radius:8px;
+
+display:flex;
+
+gap:15px;
+
+align-items:center;
+
+transition:.35s;
+
+z-index:5000;
+
+}
+
+.undo-bar.show{
+
+bottom:20px;
+
+}
+
+.undo-bar button{
+
+background:#ff9800;
+
+color:#fff;
+
+border:none;
+
+padding:7px 14px;
+
+border-radius:6px;
+
+cursor:pointer;
+
+}
+
+/* ===========================
+RESPONSIVE
+=========================== */
+
+@media(max-width:768px){
+
+body{
+
+padding:10px;
+
+}
+
+.top-header{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:15px;
+
+}
+
+.header-right{
+
+width:100%;
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+}
+
+.search-panel{
+
+flex-direction:column;
+
+}
+
+.search-panel input,
+
+.search-panel select{
+
+width:100%;
+
+}
+
+.student-header{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:12px;
+
+}
+
+.student-badges{
+
+width:100%;
+
+}
+
+.dashboard{
+
+grid-template-columns:1fr;
+
+}
+
+.modal-content{
+
+padding:15px;
+
+}
+
+}
+
+/* ===========================
+PRINT
+=========================== */
+
+@media print{
+
+body{
+
+background:#fff;
+
+}
+
+.top-header,
+
+.search-panel,
+
+.floating-buttons,
+
+.modal-buttons{
+
+display:none !important;
+
+}
+
+.student-card{
+
+box-shadow:none;
+
+border:1px solid #000;
+
+}
+
+}
