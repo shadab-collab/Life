@@ -115,7 +115,7 @@ async function refreshStudents() {
 
 async function postData(url, data) {
   
-  const fullUrl = url.startsWith("http") ? url : `https://life-lt97.onrender.com${url}`;
+  const fullUrl = url.startsWith("http") ? url : `https://life-dwmg.onrender.com${url}`;
   
   const res = await fetch(fullUrl, {
     
@@ -139,7 +139,7 @@ async function postData(url, data) {
 
 async function putData(url, data) {
   
-  const fullUrl = url.startsWith("http") ? url : `https://life-lt97.onrender.com${url}`;
+  const fullUrl = url.startsWith("http") ? url : `https://life-dwmg.onrender.com${url}`;
   
   const res = await fetch(fullUrl, {
     
@@ -1244,7 +1244,7 @@ function deleteStudent(id){
     );
 
     // ✅ सुधार: असली डिलीट रूट को कॉल किया गया है
-    const fullUrl = `https://life-lt97.onrender.com/api/students/${id}`;
+    const fullUrl = `https://life-dwmg.onrender.com${id}`;
     
     await fetch(fullUrl, {
       
