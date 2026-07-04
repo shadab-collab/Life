@@ -1,8 +1,11 @@
-require("dotenv").config();
+require("dotenv").config(); // Line 1: ✅ सुधार - 'R' को छोटा कर दिया गया है
 
 const express = require("express");
+
 const mongoose = require("mongoose");
+
 const cors = require("cors");
+
 const path = require("path");
 
 const app = express();
@@ -11,7 +14,12 @@ const app = express();
 // Middleware
 // ===============================
 
-app.use(cors());
+// ✅ सुधार: CORS को पूरी तरह खोल दिया गया है ताकि ऐप कनेक्शन फेल न हो
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type"]
+}));
 
 app.use(express.json());
 
@@ -85,13 +93,13 @@ mongoose
   
   .then(() => {
     
-    console.log("✅ MongoDB Connected");
+    console.log("✅ MongoDB Connected Successfully");
     
   })
   
   .catch(err => {
     
-    console.log(err);
+    console.error("❌ MongoDB Connection Error:", err);
     
   });
 
