@@ -32,7 +32,9 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
     rel="stylesheet">
-  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 </head>
 
 <body>
@@ -617,7 +619,24 @@
       </div>
       
       <div class="modal-buttons">
-        
+
+        <button
+          onclick="shareReceiptOnWhatsapp()"
+          class="btn-save"
+          style="background:#25d366;">
+
+          📲 WhatsApp
+
+        </button>
+
+        <button
+          onclick="downloadReceiptImage()"
+          class="btn-save">
+
+          📥 Save Image
+
+        </button>
+
         <button
           onclick="window.print()"
           class="btn-save">

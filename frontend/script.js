@@ -892,7 +892,7 @@ async function saveFee() {
   
   try {
     
-    await putData(
+    const result = await putData(
       
       API + "/" + feeTargetStudent + "/fees",
       
@@ -913,6 +913,12 @@ async function saveFee() {
       "Fee Saved Successfully"
       
     );
+
+    if (result && result.receipt) {
+
+      openStudentReceipt(result.receipt);
+
+    }
     
   }
   
@@ -1766,7 +1772,7 @@ async function markFamilyFee(code) {
   
   try {
     
-    await putData(
+    const result = await putData(
       
       API + "/family/" + code + "/fees",
       
@@ -1791,6 +1797,12 @@ async function markFamilyFee(code) {
     refreshStudents();
     
     showAlert("Family Fee Saved");
+
+    if (result && result.receipts && result.receipts.length) {
+
+      openFamilyReceipt(code, result.receipts);
+
+    }
     
   }
   
@@ -2109,6 +2121,279 @@ function showFamilyOptions(code) {
     
   );
   
+}
+
+// =========================================
+// Paper Receipt Builder
+// =========================================
+
+const MONTH_FULL = {
+
+  JN: "January", FB: "February", MR: "March",
+  AP: "April", MY: "May", JU: "June",
+  JL: "July", AG: "August", SP: "September",
+  OC: "October", NV: "November", DC: "December"
+
+};
+
+function buildReceiptHTML(receiptNo, dateStr, studentName, batch, monthLabel, rows, total) {
+
+  let rowsHtml = "";
+
+  rows.forEach((r, i) => {
+
+    rowsHtml += `
+
+<tr>
+<td>${i + 1}.</td>
+<td>${r.label}</td>
+<td>₹${r.amount}</td>
+</tr>
+
+`;
+
+  });
+
+  return `
+
+<div class="paper-receipt" id="receiptCapture">
+
+<div class="pr-header">
+<h2>SHADAB COACHING CENTER</h2>
+<p>Near Khatopur Tower, Begusarai-851129</p>
+<p>M. : 6200765036 / 7870747713</p>
+</div>
+
+<div class="pr-row">
+<label>Receipt No :</label>
+<input value="${receiptNo}" readonly>
+<label>Date :</label>
+<input value="${dateStr}" readonly>
+</div>
+
+<div class="pr-row">
+<label>Student's Name :</label>
+<input value="${studentName}" readonly>
+</div>
+
+<div class="pr-row">
+<label>Father's Name :</label>
+<input id="rcptFather" placeholder="Type here">
+</div>
+
+<div class="pr-row">
+<label>Address :</label>
+<input id="rcptAddress" placeholder="Type here">
+</div>
+
+<div class="pr-row">
+<label>Board :</label>
+<input id="rcptBoard" placeholder="CBSE / Bihar">
+<label>Class :</label>
+<input id="rcptClass" value="${batch || ""}" placeholder="Type here">
+</div>
+
+<div class="pr-row">
+<label>Month :</label>
+<input value="${monthLabel}" readonly>
+</div>
+
+<table class="pr-table">
+<tr><th>Sl.</th><th>Particulars</th><th>Amount</th></tr>
+${rowsHtml}
+<tr><td colspan="2" style="text-align:right;font-weight:600;">Total</td><td style="font-weight:700;">₹${total}</td></tr>
+</table>
+
+<div class="pr-total-words">
+Total Rs. (in Words) : ${numberToWordsINR(total)}
+</div>
+
+<div class="pr-footer">
+<div>Note : All Dues must be paid<br>on 10th of each month.</div>
+<div style="text-align:center;">
+Signature<br>Director
+</div>
+</div>
+
+</div>
+
+`;
+
+}
+
+// Very small number-to-words helper for receipt totals (Indian style, whole rupees only)
+function numberToWordsINR(num) {
+
+  num = Math.round(Number(num) || 0);
+
+  if (num === 0) return "Zero Rupees Only";
+
+  const ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+    "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
+    "Seventeen", "Eighteen", "Nineteen"];
+
+  const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+
+  function twoDigits(n) {
+    if (n < 20) return ones[n];
+    return tens[Math.floor(n / 10)] + (n % 10 ? " " + ones[n % 10] : "");
+  }
+
+  function threeDigits(n) {
+    if (n < 100) return twoDigits(n);
+    return ones[Math.floor(n / 100)] + " Hundred" + (n % 100 ? " " + twoDigits(n % 100) : "");
+  }
+
+  let result = "";
+
+  const crore = Math.floor(num / 10000000);
+  num %= 10000000;
+
+  const lakh = Math.floor(num / 100000);
+  num %= 100000;
+
+  const thousand = Math.floor(num / 1000);
+  num %= 1000;
+
+  if (crore) result += threeDigits(crore) + " Crore ";
+  if (lakh) result += threeDigits(lakh) + " Lakh ";
+  if (thousand) result += threeDigits(thousand) + " Thousand ";
+  if (num) result += threeDigits(num);
+
+  return result.trim() + " Rupees Only";
+
+}
+
+// =========================================
+// Open Receipt For Single Student Payment
+// =========================================
+
+function openStudentReceipt(receipt) {
+
+  const monthLabel = (MONTH_FULL[receipt.month] || receipt.month) + " " + receipt.year;
+
+  const html = buildReceiptHTML(
+
+    receipt.receiptNo,
+    receipt.paidOn,
+    receipt.studentName,
+    receipt.batch,
+    monthLabel,
+    [{ label: "Tuition Fee", amount: receipt.paidAmount }],
+    receipt.paidAmount
+
+  );
+
+  openReceipt(html);
+
+}
+
+// =========================================
+// Open Receipt For Family Payment (Combined)
+// =========================================
+
+function openFamilyReceipt(code, receipts) {
+
+  const monthLabel = (MONTH_FULL[receipts[0].month] || receipts[0].month) + " " + receipts[0].year;
+
+  const total = receipts.reduce(
+    (sum, r) => sum + Number(r.paidAmount || 0),
+    0
+  );
+
+  const rows = receipts.map(r => ({
+    label: r.studentName,
+    amount: r.paidAmount
+  }));
+
+  const html = buildReceiptHTML(
+
+    receipts[receipts.length - 1].receiptNo,
+    receipts[0].paidOn,
+    "Family : " + code,
+    "",
+    monthLabel,
+    rows,
+    total
+
+  );
+
+  openReceipt(html);
+
+}
+
+// =========================================
+// Share / Save Receipt As Image
+// =========================================
+
+async function getReceiptBlob() {
+
+  const el = document.getElementById("receiptCapture");
+
+  const canvas = await html2canvas(el, { scale: 3, backgroundColor: "#fdf1f5" });
+
+  return new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+
+}
+
+async function shareReceiptOnWhatsapp() {
+
+  try {
+
+    const blob = await getReceiptBlob();
+
+    const file = new File([blob], "fee-receipt.png", { type: "image/png" });
+
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+
+      await navigator.share({
+        files: [file],
+        title: "Fee Receipt",
+        text: "SHADAB COACHING CENTER - Fee Receipt"
+      });
+
+    } else {
+
+      downloadBlobFile(blob, "fee-receipt.png");
+
+      showAlert("Image download ho gayi, WhatsApp me attach karke bhej dein");
+
+      window.open("https://wa.me/?text=" + encodeURIComponent("SHADAB COACHING CENTER - Fee Receipt attached"));
+
+    }
+
+  } catch (err) {
+
+    console.log(err);
+
+    showAlert("Share nahi ho paaya, Save Image try karein");
+
+  }
+
+}
+
+async function downloadReceiptImage() {
+
+  const blob = await getReceiptBlob();
+
+  downloadBlobFile(blob, "fee-receipt.png");
+
+}
+
+function downloadBlobFile(blob, name) {
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+
+  a.href = url;
+
+  a.download = name;
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+
 }
 
 function openReceipt(html) {
