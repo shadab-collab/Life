@@ -176,6 +176,8 @@ exports.markStudentFee = async (req, res) => {
     // Receipt Create
     // ==========================
 
+    let savedReceipt = null;
+
     if (status !== "unpaid") {
 
       const receipt = new Receipt({
@@ -214,13 +216,17 @@ exports.markStudentFee = async (req, res) => {
 
       await receipt.save();
 
+      savedReceipt = receipt;
+
     }
 
     res.json({
 
       success: true,
 
-      student
+      student,
+
+      receipt: savedReceipt
 
     });
 
@@ -297,6 +303,8 @@ exports.markFamilyFee = async (req, res) => {
       paidAmount / members.length
 
     );
+
+    const savedReceipts = [];
     // =======================================
     // Update Every Family Member
     // =======================================
@@ -392,7 +400,7 @@ exports.markFamilyFee = async (req, res) => {
 
       if (status !== "unpaid") {
 
-        await Receipt.create({
+        const famReceipt = await Receipt.create({
 
           receiptNo: await nextReceiptNo(),
 
@@ -426,6 +434,8 @@ exports.markFamilyFee = async (req, res) => {
 
         });
 
+        savedReceipts.push(famReceipt);
+
       }
 
     }
@@ -454,7 +464,11 @@ exports.markFamilyFee = async (req, res) => {
 
       success: true,
 
-      message: "Family fee updated successfully"
+      message: "Family fee updated successfully",
+
+      familyCode: req.params.code,
+
+      receipts: savedReceipts
 
     });
 
